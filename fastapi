@@ -1,0 +1,63 @@
+from fastapi import FastAPI, Depends, HTTPException
+from fastapi security import
+OAuth2PasswordBearer
+from pydantic import
+BaseModel
+import requests
+# OAuth 2.0 configuration
+oauth2
+_scheme =
+OAuth2PasswordBearer (tokenUrl="token")
+# Create a FastAPI instance
+app = FastAPI ()
+# Model to represent food
+search request
+class FoodSearchRequest (BaseModel) :
+query: str
+# Function to handle OAuth 2.0
+authentication
+async def get_ current_user (token: str = Depends (oauth2_scheme) ) :
+# Replace with your actual token
+validation logic
+if token != "your_secret_token" :
+raise
+HTTPException (status_code=401, detail="Invalid token")
+return {"sub": "user123"}
+Replace with user information
+# Endpoint for food search
+@app. get ("/foods/search" )
+async def search_food( food
+FoodsearchRequest,
+_search_request:
+user=Depends (get _current_user)) :
+# Construct the FatSecret API  URL
+api_url = "https: //
+platform. fatsecret.com/rest/
+server api"
+params
+= {
+"method": "foods. search",
+"format": "json"
+"search_expression":
+food
+search request. query,
+# Add other parameters
+as needed
+}
+# Make the API request
+response = requests.get (api_url,
+params=params)
+# Handle API response
+if response.status_code == 200:
+return response. json()
+else:
+raise
+HTTPException (status_code=500, detail="Failed to fetch food data" )
+# Run the FastAPI server (replace with
+your desired host
+and port)
+If_name_
+== "
+main
+import uvicorn uvicorn. run(app, host="0.0.0.0",
+port=8000)
